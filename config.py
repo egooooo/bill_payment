@@ -4,12 +4,18 @@ import os
 BASE_DIR = pathlib.Path(__file__).parent
 
 # currency_code
-EUR = 978
-USD = 840
-RUB = 643
+CURRENCY_CODE = {
+    "EUR": 978,
+    "USD": 840,
+    "RUB": 643
+}
 
 CURRENCY = ["EUR", "USD", "RUB"]
-KEYS_SORTED= ['amount', 'currency', 'shop_id', 'shop_order_id']
+
+EUR_KEYS_SORTED = ['amount', 'currency', 'shop_id', 'shop_order_id']
+USD_KEYS_SORTED = ['shop_amount', 'shop_currency', 'shop_id', 'shop_order_id',
+                   'payer_currency']
+RUB_KEYS_SORTED = ['amount', 'currency', 'payway', 'shop_id', 'shop_order_id']
 
 # Parameters for making queries
 SHOP_ID = 5

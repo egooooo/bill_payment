@@ -22,3 +22,11 @@ class Payment(AbstractBaseModel):
         return f'Payment ID - {self.id}, ' \
                f'pay_currency - {self.pay_currency}, ' \
                f'amount - {self.pay_amount}'
+
+
+class PaymentLog(AbstractBaseModel):
+    __tablename__ = 'payment_logs'
+
+    payment_id = db.Column(db.Integer, db.ForeignKey('payments.id'))
+    send_data = db.Column(db.Text, default=None)
+    response = db.Column(db.Text, default=None)

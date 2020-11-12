@@ -1,10 +1,9 @@
 alembic
-aniso8601
-attrs
 click
 Flask
 Flask-Migrate
 Flask-RESTful
+Flask-Api
 Flask-SQLAlchemy
 itsdangerous
 Jinja2
@@ -15,7 +14,6 @@ marshmallow-sqlalchemy
 more-itertools
 packaging
 pluggy
-py
 PyJWT
 pytz
 SQLAlchemy
