@@ -8,13 +8,16 @@ EUR = 978
 USD = 840
 RUB = 643
 
+CURRENCY = ["EUR", "USD", "RUB"]
+KEYS_SORTED= ['amount', 'currency', 'shop_id', 'shop_order_id']
+
 # Parameters for making queries
 SHOP_ID = 5
 SECRET_KEY = 'SecretKey01'
 PAYWAY = 'payeer_rub'
 
 # Urls
-URL_PIASTRIX_EN = 'https://pay.piastrix.com/en/pay'
+URL_PIASTRIX_EN_PAY = 'https://pay.piastrix.com/en/pay'
 URL_PIASTRIX_BILL_CRATE = 'https://core.piastrix.com/bill/create'
 URL_PIASTRIX_INVOICE_CRATE = 'https://core.piastrix.com/invoice/create'
 
@@ -27,4 +30,3 @@ class Config:
         'sqlite:///' + str(BASE_DIR / 'db.sqlite3'))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = '(8dvwf@-b62qg(q2xold%yr4%bz-gw9@anm5w39+id_rid2ntg'
-
