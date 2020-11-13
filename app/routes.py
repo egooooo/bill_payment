@@ -10,8 +10,17 @@ from app import api, db
 from app.models import Payment, PaymentLog
 
 from config import CURRENCY, CURRENCY_CODE, SHOP_ID, SECRET_KEY, PAYWAY, \
-    URL_EN_PAY, URL_BILL_CRATE, URL_INVOICE_CRATE, \
-    EUR_PARAMS, USD_PARAMS, RUB_PARAMS
+    URL_EN_PAY, URL_BILL_CRATE, URL_INVOICE_CRATE, EUR_PARAMS, USD_PARAMS, \
+    RUB_PARAMS
+
+import logging
+
+
+# Logger
+logging.basicConfig(
+    filename=f'{os.path.dirname(os.path.realpath(__file__))}/../logs/log.log',
+    level=logging.INFO
+)
 
 
 def pay_log_save(payment_id, send_data, response=None):
@@ -22,6 +31,9 @@ def pay_log_save(payment_id, send_data, response=None):
     )
     db.session.add(pay_log)
     db.session.commit()
+
+    logging.info(f'pay_log_save:\npayment_id: {payment_id}\n'
+                 f'send_data: {send_data}\nresponse: {response}')
 
 
 def make_sign(params, data):
@@ -37,7 +49,7 @@ def sender(data, url):
             headers={'Content-Type': 'application/json'}
         )
     except:
-        return {"error": "error while sending request"}
+        return {"error": {"message": "error while sending request"}}
 
     response = json.loads(response_data.content)
 
@@ -51,8 +63,15 @@ class PaymentApi(Resource):
     def post(self):
         data = json.loads(request.data)
 
+        if data.get('pay_amount') is None:
+            return make_response(
+                jsonify({"error": {"message": "BAD REQUEST"}}), 400
+            )
+
         if data.get('pay_currency') not in CURRENCY:
-            return make_response(jsonify({"error": "BAD REQUEST"}), 400)
+            return make_response(
+                jsonify({"error": {"message": "BAD REQUEST"}}), 400
+            )
 
         pay = Payment(
             pay_amount=data.get('pay_amount'),
@@ -76,6 +95,7 @@ class PaymentApi(Resource):
 
             # Save logs
             pay_log_save(pay.id, json.dumps(send_data))
+            logging.info(f'EUR -- send_data: {send_data}')
 
             response = jsonify(send_data)
             response.headers.set('Access-Control-Allow-Origin', '*')
@@ -91,9 +111,11 @@ class PaymentApi(Resource):
 
             # send data
             resp = sender(send_data, URL_BILL_CRATE)
+            logging.info(f'USD -- sender: {send_data}')
 
             # Save logs
             pay_log_save(pay.id, json.dumps(send_data), json.dumps(resp))
+            logging.info(f'USD -- send_data: {send_data}')
 
             if resp.get('error'):
                 return make_response(resp)
@@ -112,9 +134,11 @@ class PaymentApi(Resource):
 
             # send data
             resp = sender(send_data, URL_INVOICE_CRATE)
+            logging.info(f'RUB -- sender: {send_data}')
 
             # save logs
             pay_log_save(pay.id, json.dumps(send_data), json.dumps(resp))
+            logging.info(f'RUB -- send_data: {send_data}')
 
             if resp.get('error'):
                 return make_response(resp)
