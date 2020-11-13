@@ -30,8 +30,6 @@ def make_sign(params, data):
 
 
 def sender(data, url):
-    print(f"\n\n\n DATA: {data}\n\n\n")
-    print(f"\n\n\n URL: {url}\n\n\n")
     try:
         response_data = requests.post(
             url,
@@ -42,8 +40,6 @@ def sender(data, url):
         return {"error": "error while sending request"}
 
     response = json.loads(response_data.content)
-
-    print(f'\n\n\nresponse: {response}\n\n\n')
 
     if response.get('result') is False:
         return {"error": response}
