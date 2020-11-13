@@ -60,7 +60,6 @@ class PaymentApi(Resource):
         send_data = dict()
 
         if pay.pay_currency == 'EUR':
-            print(f'\n\n\nEUR -- send_data: {send_data}\n\n\n')
             send_data['amount'] = str(pay.pay_amount)
             send_data['currency'] = str(CURRENCY_CODE.get(pay.pay_currency))
             send_data['description'] = pay.description
@@ -79,7 +78,6 @@ class PaymentApi(Resource):
             return make_response(response, 200)
 
         if pay.pay_currency == 'USD':
-            print(f'\n\n\nUSD -- send_data: {send_data}\n\n\n')
             send_data['payer_currency'] = str(CURRENCY_CODE.get(pay.pay_currency))
             send_data['shop_amount'] = str(pay.pay_amount)
             send_data['shop_currency'] = str(pay.pay_amount)
