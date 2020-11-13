@@ -5,6 +5,7 @@ Flask-Migrate
 Flask-RESTful
 Flask-Api
 Flask-SQLAlchemy
+flask-cors
 itsdangerous
 Jinja2
 Mako

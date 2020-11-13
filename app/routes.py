@@ -29,6 +29,28 @@ def make_sign(params, data):
     return sha256(sing.encode()).hexdigest()
 
 
+def sender(data, url):
+    print(f"\n\n\n DATA: {data}\n\n\n")
+    print(f"\n\n\n URL: {url}\n\n\n")
+    try:
+        response_data = requests.post(
+            url,
+            json=data,
+            headers={'Content-Type': 'application/json'}
+        )
+    except:
+        return {"error": "error while sending request"}
+
+    response = json.loads(response_data.content)
+
+    print(f'\n\n\nresponse: {response}\n\n\n')
+
+    if response.get('result') is False:
+        return {"error": response}
+
+    return response.get('data')
+
+
 class PaymentApi(Resource):
     def post(self):
         data = json.loads(request.data)
@@ -66,28 +88,21 @@ class PaymentApi(Resource):
         if pay.pay_currency == 'USD':
             send_data['payer_currency'] = str(CURRENCY_CODE.get(pay.pay_currency))
             send_data['shop_amount'] = str(pay.pay_amount)
-            send_data['shop_currency'] = str(pay.pay_amount)
+            send_data['shop_currency'] = str(CURRENCY_CODE.get(pay.pay_currency))
             send_data['shop_id'] = str(SHOP_ID)
             send_data['shop_order_id'] = str(pay.id)
             send_data['sign'] = make_sign(USD_PARAMS, send_data)
 
-            try:
-                response_data = requests.post(
-                    URL_BILL_CRATE,
-                    json=send_data,
-                    headers={'Content-Type': 'application/json'}
-                )
-            except:
-                return make_response(jsonify({"error": "BAD REQUEST"}), 400)
-
-            resp = json.loads(response_data.content)
-
-            if resp.get('result') is False:
-                return make_response(jsonify({"error": resp}), 400)
+            # send data
+            resp = sender(send_data, URL_BILL_CRATE)
 
             # Save logs
             pay_log_save(pay.id, json.dumps(send_data), json.dumps(resp))
-            response = jsonify({"url": resp.get('data').get('url')})
+
+            if resp.get('error'):
+                return make_response(resp)
+
+            response = jsonify({"url": resp.get('url')})
             response.headers.set('Access-Control-Allow-Origin', '*')
             return make_response(response, 200)
 
@@ -99,26 +114,20 @@ class PaymentApi(Resource):
             send_data['shop_order_id'] = str(pay.id)
             send_data['sign'] = make_sign(RUB_PARAMS, send_data)
 
-            try:
-                response_data = requests.post(
-                    URL_INVOICE_CRATE,
-                    json=send_data,
-                    headers={'Content-Type': 'application/json'}
-                )
-            except:
-                return make_response(jsonify({"error": "BAD REQUEST"}), 400)
+            # send data
+            resp = sender(send_data, URL_INVOICE_CRATE)
 
-            resp = json.loads(response_data.content)
-
-            if resp.get('result') is False:
-                return make_response(jsonify({"error": resp}), 400)
-
+            # save logs
             pay_log_save(pay.id, json.dumps(send_data), json.dumps(resp))
+
+            if resp.get('error'):
+                return make_response(resp)
 
             response = jsonify(
                 {
-                    "method": resp.get('data').get('method'),
-                    "url": resp.get('data').get('url')
+                    "data": resp.get('data'),
+                    "method": resp.get('method'),
+                    "url": resp.get('url')
                 }
             )
             response.headers.set('Access-Control-Allow-Origin', '*')
