@@ -7,3 +7,7 @@ INFO:werkzeug:127.0.0.1 - - [12/Nov/2020 20:40:03] "[37mPOST / HTTP/1.1[0m" 20
 WARNING:werkzeug: * Debugger is active!
 INFO:werkzeug: * Debugger PIN: 102-599-949
 INFO:werkzeug: * Detected change in '/Users/eugenegolosuev/Documents/python/egoo_pr/tz/involve/involve_app/app/routes.py', reloading
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 102-599-949

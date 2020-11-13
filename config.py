@@ -12,20 +12,20 @@ CURRENCY_CODE = {
 
 CURRENCY = ["EUR", "USD", "RUB"]
 
-EUR_KEYS_SORTED = ['amount', 'currency', 'shop_id', 'shop_order_id']
-USD_KEYS_SORTED = ['shop_amount', 'shop_currency', 'shop_id', 'shop_order_id',
-                   'payer_currency']
-RUB_KEYS_SORTED = ['amount', 'currency', 'payway', 'shop_id', 'shop_order_id']
+EUR_PARAMS = ['amount', 'currency', 'shop_id', 'shop_order_id']
+USD_PARAMS = ['shop_amount', 'shop_currency', 'shop_id', 'shop_order_id',
+              'payer_currency']
+RUB_PARAMS = ['amount', 'currency', 'payway', 'shop_id', 'shop_order_id']
 
 # Parameters for making queries
 SHOP_ID = 5
 SECRET_KEY = 'SecretKey01'
 PAYWAY = 'payeer_rub'
 
-# Urls
-URL_PIASTRIX_EN_PAY = 'https://pay.piastrix.com/en/pay'
-URL_PIASTRIX_BILL_CRATE = 'https://core.piastrix.com/bill/create'
-URL_PIASTRIX_INVOICE_CRATE = 'https://core.piastrix.com/invoice/create'
+# PIASTRIX URLS
+URL_EN_PAY = 'https://pay.piastrix.com/en/pay'
+URL_BILL_CRATE = 'https://core.piastrix.com/bill/create'
+URL_INVOICE_CRATE = 'https://core.piastrix.com/invoice/create'
 
 
 class Config:

@@ -10,8 +10,8 @@ from app import api, db
 from app.models import Payment, PaymentLog
 
 from config import CURRENCY, CURRENCY_CODE, SHOP_ID, SECRET_KEY, PAYWAY, \
-    URL_PIASTRIX_EN_PAY, URL_PIASTRIX_BILL_CRATE, URL_PIASTRIX_INVOICE_CRATE, \
-    EUR_KEYS_SORTED, USD_KEYS_SORTED, RUB_KEYS_SORTED
+    URL_EN_PAY, URL_BILL_CRATE, URL_INVOICE_CRATE, \
+    EUR_PARAMS, USD_PARAMS, RUB_PARAMS
 
 # import logging
 #
@@ -32,13 +32,12 @@ def pay_log_save(payment_id, send_data, response=None):
     db.session.add(pay_log)
     db.session.commit()
 
-    # logging.info(f"pay_log: ID - {pay_log.id}, "
-    #              f"payment_id - {pay_log.payment_id}, "
-    #              f"send_data: {pay_log.send_data}")
+    # logging.info(f'pay_log_save:\npayment_id: {payment_id}\n'
+    #              f'send_data: {send_data}\nresponse: {response}')
 
 
-def make_sign(keys, data):
-    sing = ':'.join([data.get(key) for key in sorted(keys)]) + SECRET_KEY
+def make_sign(params, data):
+    sing = ':'.join([data.get(p) for p in sorted(params)]) + SECRET_KEY
     return sha256(sing.encode()).hexdigest()
 
 
@@ -57,62 +56,97 @@ class PaymentApi(Resource):
         db.session.add(pay)
         db.session.commit()
 
-        if pay.pay_currency == 'EUR':
-            send_data = {
-                'amount': str(pay.pay_amount),
-                'currency': str(CURRENCY_CODE.get(pay.pay_currency)),
-                'description': pay.description,
-                'shop_id': str(SHOP_ID),
-                'shop_order_id': str(pay.id),
-            }
+        # Required data set for sending
+        send_data = dict()
 
-            send_data.update(
-                {
-                    'sign': make_sign(EUR_KEYS_SORTED, send_data),
-                    'url': URL_PIASTRIX_EN_PAY
-                }
-            )
+        if pay.pay_currency == 'EUR':
+            print(f'\n\n\nEUR -- send_data: {send_data}\n\n\n')
+            send_data['amount'] = str(pay.pay_amount)
+            send_data['currency'] = str(CURRENCY_CODE.get(pay.pay_currency))
+            send_data['description'] = pay.description
+            send_data['shop_id'] = str(SHOP_ID)
+            send_data['shop_order_id'] = str(pay.id)
+            send_data['sign'] = make_sign(EUR_PARAMS, send_data)
+            send_data['url'] = URL_EN_PAY
+
+            # logging.info(f'EUR -- Send_data: {send_data}')
+
+            # Save logs
             pay_log_save(pay.id, json.dumps(send_data))
-            # logging.info(f'EUR. Send_data: {send_data}')
 
             response = jsonify(send_data)
             response.headers.set('Access-Control-Allow-Origin', '*')
-
             return make_response(response, 200)
 
         if pay.pay_currency == 'USD':
-            send_data = {
-                "payer_currency": str(CURRENCY_CODE.get(pay.pay_currency)),
-                "shop_amount": str(pay.pay_amount),
-                "shop_currency": str(CURRENCY_CODE.get(pay.pay_currency)),
-                "shop_id": str(SHOP_ID),
-                "shop_order_id": str(pay.id),
-            }
-            print(f'send_data: {send_data}')
+            print(f'\n\n\nUSD -- send_data: {send_data}\n\n\n')
+            send_data['payer_currency'] = str(CURRENCY_CODE.get(pay.pay_currency))
+            send_data['shop_amount'] = str(pay.pay_amount)
+            send_data['shop_currency'] = str(pay.pay_amount)
+            send_data['shop_id'] = str(SHOP_ID)
+            send_data['shop_order_id'] = str(pay.id)
+            send_data['sign'] = make_sign(USD_PARAMS, send_data)
 
-            send_data.update(
-                {
-                    'sign': make_sign(EUR_KEYS_SORTED, send_data)
-                }
-            )
-            response_data = requests.post(
-                URL_PIASTRIX_BILL_CRATE,
-                json=send_data,
-                headers={'Content-Type': 'application/json'}
-            )
-            if response_data is None:
+            # logging.info(f'USD -- send data: {send_data}')
+            try:
+                response_data = requests.post(
+                    URL_BILL_CRATE,
+                    json=send_data,
+                    headers={'Content-Type': 'application/json'}
+                )
+            except:
                 return make_response(jsonify({"error": "BAD REQUEST"}), 400)
 
             resp = json.loads(response_data.content)
 
-            pay_log_save(pay.id, json.dumps(send_data), resp)
+            if resp.get('result') is False:
+                # logging.info(f'USD -- response result is False: {resp}')
+                return make_response(jsonify({"error": resp}), 400)
 
-            response = jsonify({"url": resp.get('data', {}).get('url')})
+            # logging.info(f'USD -- response: {resp}')
+
+            # Save logs
+            pay_log_save(pay.id, json.dumps(send_data), json.dumps(resp))
+            response = jsonify({"url": resp.get('data').get('url')})
             response.headers.set('Access-Control-Allow-Origin', '*')
-            return make_response(response, 302)
+            return make_response(response, 200)
 
         if pay.pay_currency == 'RUB':
-            return make_response({"result": 200}, 200)
+            send_data['amount'] = str(pay.pay_amount)
+            send_data['currency'] = str(CURRENCY_CODE.get(pay.pay_currency))
+            send_data['payway'] = PAYWAY
+            send_data['shop_id'] = str(SHOP_ID)
+            send_data['shop_order_id'] = str(pay.id)
+            send_data['sign'] = make_sign(RUB_PARAMS, send_data)
+
+            # logging.info(f'RUB -- send data: {send_data}')
+
+            try:
+                response_data = requests.post(
+                    URL_INVOICE_CRATE,
+                    json=send_data,
+                    headers={'Content-Type': 'application/json'}
+                )
+            except:
+                return make_response(jsonify({"error": "BAD REQUEST"}), 400)
+
+            resp = json.loads(response_data.content)
+
+            if resp.get('result') is False:
+                # logging.info(f'USD -- response result is False: {resp}')
+                return make_response(jsonify({"error": resp}), 400)
+
+            # logging.info(f'EUR -- Send_data: {send_data}')
+            pay_log_save(pay.id, json.dumps(send_data), json.dumps(resp))
+
+            response = jsonify(
+                {
+                    "method": resp.get('data').get('method'),
+                    "url": resp.get('data').get('url')
+                }
+            )
+            response.headers.set('Access-Control-Allow-Origin', '*')
+            return make_response(response, 200)
 
 
 api.add_resource(PaymentApi, '/')
