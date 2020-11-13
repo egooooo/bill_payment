@@ -13,15 +13,6 @@ from config import CURRENCY, CURRENCY_CODE, SHOP_ID, SECRET_KEY, PAYWAY, \
     URL_EN_PAY, URL_BILL_CRATE, URL_INVOICE_CRATE, \
     EUR_PARAMS, USD_PARAMS, RUB_PARAMS
 
-# import logging
-#
-#
-# # Logger
-# logging.basicConfig(
-#     filename=f'{os.path.dirname(os.path.realpath(__file__))}/../logs/log.log',
-#     level=logging.INFO
-# )
-
 
 def pay_log_save(payment_id, send_data, response=None):
     pay_log = PaymentLog(
@@ -31,9 +22,6 @@ def pay_log_save(payment_id, send_data, response=None):
     )
     db.session.add(pay_log)
     db.session.commit()
-
-    # logging.info(f'pay_log_save:\npayment_id: {payment_id}\n'
-    #              f'send_data: {send_data}\nresponse: {response}')
 
 
 def make_sign(params, data):
@@ -68,8 +56,6 @@ class PaymentApi(Resource):
             send_data['sign'] = make_sign(EUR_PARAMS, send_data)
             send_data['url'] = URL_EN_PAY
 
-            # logging.info(f'EUR -- Send_data: {send_data}')
-
             # Save logs
             pay_log_save(pay.id, json.dumps(send_data))
 
@@ -85,7 +71,6 @@ class PaymentApi(Resource):
             send_data['shop_order_id'] = str(pay.id)
             send_data['sign'] = make_sign(USD_PARAMS, send_data)
 
-            # logging.info(f'USD -- send data: {send_data}')
             try:
                 response_data = requests.post(
                     URL_BILL_CRATE,
@@ -98,10 +83,7 @@ class PaymentApi(Resource):
             resp = json.loads(response_data.content)
 
             if resp.get('result') is False:
-                # logging.info(f'USD -- response result is False: {resp}')
                 return make_response(jsonify({"error": resp}), 400)
-
-            # logging.info(f'USD -- response: {resp}')
 
             # Save logs
             pay_log_save(pay.id, json.dumps(send_data), json.dumps(resp))
@@ -117,8 +99,6 @@ class PaymentApi(Resource):
             send_data['shop_order_id'] = str(pay.id)
             send_data['sign'] = make_sign(RUB_PARAMS, send_data)
 
-            # logging.info(f'RUB -- send data: {send_data}')
-
             try:
                 response_data = requests.post(
                     URL_INVOICE_CRATE,
@@ -131,10 +111,8 @@ class PaymentApi(Resource):
             resp = json.loads(response_data.content)
 
             if resp.get('result') is False:
-                # logging.info(f'USD -- response result is False: {resp}')
                 return make_response(jsonify({"error": resp}), 400)
 
-            # logging.info(f'EUR -- Send_data: {send_data}')
             pay_log_save(pay.id, json.dumps(send_data), json.dumps(resp))
 
             response = jsonify(
