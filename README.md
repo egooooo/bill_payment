@@ -31,4 +31,4 @@ tail -f logs/log.log
 ```
 
 5. Frontend \
-In field frontend open ``index.html`` in browser.
+In field ``frontend`` open ``index.html`` in browser.
