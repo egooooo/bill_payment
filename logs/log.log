@@ -2,3 +2,11 @@ INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 INFO:werkzeug: * Restarting with stat
 WARNING:werkzeug: * Debugger is active!
 INFO:werkzeug: * Debugger PIN: 102-599-949
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:root:USD -- sender: {'payer_currency': '840', 'shop_amount': '3333.22', 'shop_currency': '840', 'shop_id': '5', 'shop_order_id': '1', 'sign': 'fe83d39776c2364867a441e6b4788247985e52d79784c1e3839a6bd84819d476'}
+INFO:root:pay_log_save:
+payment_id: 1
+send_data: {"payer_currency": "840", "shop_amount": "3333.22", "shop_currency": "840", "shop_id": "5", "shop_order_id": "1", "sign": "fe83d39776c2364867a441e6b4788247985e52d79784c1e3839a6bd84819d476"}
+response: {"created": "Sat, 14 Nov 2020 10:54:28 GMT", "id": 899345, "lifetime": 43200, "payer_account": null, "payer_currency": 840, "payer_price": 3333.22, "shop_amount": 3333.22, "shop_currency": 840, "shop_id": 5, "shop_order_id": "1", "shop_refund": 3166.56, "url": "https://wallet.piastrix.com/ru/bill/pay/kiyWnmfTspdptmQp"}
+INFO:root:USD -- send_data: {'payer_currency': '840', 'shop_amount': '3333.22', 'shop_currency': '840', 'shop_id': '5', 'shop_order_id': '1', 'sign': 'fe83d39776c2364867a441e6b4788247985e52d79784c1e3839a6bd84819d476'}
+INFO:werkzeug:127.0.0.1 - - [14/Nov/2020 10:54:28] "[37mPOST / HTTP/1.1[0m" 200 -
