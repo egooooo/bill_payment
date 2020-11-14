@@ -20,15 +20,15 @@ python manage.py db migrate
 python manage.py db upgrade
 ```
 
-3. Run backend
+## Run backend
 ```bash
 python manage.py run
 ```
 
-4. Logs
+## Logs
 ```bash
 tail -f logs/log.log 
 ```
 
-5. Frontend \
+## Frontend 
 In field ``frontend`` open ``index.html`` in browser.
