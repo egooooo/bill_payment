@@ -30,5 +30,5 @@ python manage.py run
 tail -f logs/log.log 
 ```
 
-## Frontend 
-In field ``frontend`` open ``index.html`` in browser.
+## Frontend (client-side)
+In field ``client-side`` open ``index.html`` in browser.

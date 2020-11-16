@@ -25,4 +25,4 @@ api = Api(app)
 CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-from app import routes, service
+from app import routes, service, view
