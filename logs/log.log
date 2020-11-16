@@ -106,3 +106,35 @@ send_data: {"payer_currency": "840", "shop_amount": "444", "shop_currency": "840
 response: {"created": "Mon, 16 Nov 2020 15:36:03 GMT", "id": 903740, "lifetime": 43200, "payer_account": null, "payer_currency": 840, "payer_price": 444.0, "shop_amount": 444.0, "shop_currency": 840, "shop_id": 5, "shop_order_id": "13", "shop_refund": 421.8, "url": "https://wallet.piastrix.com/ru/bill/pay/nliwdyvsuPAPixph"}
 INFO:root:USD -- send_data: {'payer_currency': '840', 'shop_amount': '444', 'shop_currency': '840', 'shop_id': '5', 'shop_order_id': '13', 'sign': '85c6a578d1e83934c04f06aacc2069dc6d91d8e68aebefa3c9ce0307fc5f407c'}
 INFO:werkzeug:127.0.0.1 - - [16/Nov/2020 15:36:03] "[37mPOST / HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [16/Nov/2020 15:49:17] "[37mOPTIONS / HTTP/1.1[0m" 200 -
+INFO:root:pay_log_save:
+payment_id: 14
+send_data: {"amount": "333", "currency": "978", "description": "asdf", "shop_id": "5", "shop_order_id": "14", "sign": "4dd543a2bfcf5988af4f44afcdee7bf5e8d0c6f30fd6237eff28ac480ae99bfe", "url": "https://pay.piastrix.com/en/pay"}
+response: None
+INFO:root:EUR -- send_data: {'amount': '333', 'currency': '978', 'description': 'asdf', 'shop_id': '5', 'shop_order_id': '14', 'sign': '4dd543a2bfcf5988af4f44afcdee7bf5e8d0c6f30fd6237eff28ac480ae99bfe', 'url': 'https://pay.piastrix.com/en/pay'}
+INFO:werkzeug:127.0.0.1 - - [16/Nov/2020 15:49:17] "[37mPOST / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Nov/2020 15:50:14] "[37mOPTIONS / HTTP/1.1[0m" 200 -
+INFO:root:pay_log_save:
+payment_id: 15
+send_data: {"amount": "333", "currency": "978", "description": "\u044b\u0444\u0430\u0432", "shop_id": "5", "shop_order_id": "15", "sign": "e19b1f41631d97db0c79496ae5fa7d0c55e96acc84a0a771bd178b12c34c5111", "url": "https://pay.piastrix.com/en/pay"}
+response: None
+INFO:root:EUR -- send_data: {'amount': '333', 'currency': '978', 'description': 'ыфав', 'shop_id': '5', 'shop_order_id': '15', 'sign': 'e19b1f41631d97db0c79496ae5fa7d0c55e96acc84a0a771bd178b12c34c5111', 'url': 'https://pay.piastrix.com/en/pay'}
+INFO:werkzeug:127.0.0.1 - - [16/Nov/2020 15:50:14] "[37mPOST / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Nov/2020 15:50:19] "[37mOPTIONS / HTTP/1.1[0m" 200 -
+INFO:root:USD -- sender: {'payer_currency': '840', 'shop_amount': '333', 'shop_currency': '840', 'shop_id': '5', 'shop_order_id': '16', 'sign': '7e7fba0d54eae6c5d3e2c01cd692f9ad01acfaa6737e225aa2ad210accf32807'}
+INFO:root:pay_log_save:
+payment_id: 16
+send_data: {"payer_currency": "840", "shop_amount": "333", "shop_currency": "840", "shop_id": "5", "shop_order_id": "16", "sign": "7e7fba0d54eae6c5d3e2c01cd692f9ad01acfaa6737e225aa2ad210accf32807"}
+response: {"created": "Mon, 16 Nov 2020 15:50:19 GMT", "id": 903769, "lifetime": 43200, "payer_account": null, "payer_currency": 840, "payer_price": 333.0, "shop_amount": 333.0, "shop_currency": 840, "shop_id": 5, "shop_order_id": "16", "shop_refund": 316.35, "url": "https://wallet.piastrix.com/ru/bill/pay/uIyVshpyyxQVxedz"}
+INFO:root:USD -- send_data: {'payer_currency': '840', 'shop_amount': '333', 'shop_currency': '840', 'shop_id': '5', 'shop_order_id': '16', 'sign': '7e7fba0d54eae6c5d3e2c01cd692f9ad01acfaa6737e225aa2ad210accf32807'}
+INFO:werkzeug:127.0.0.1 - - [16/Nov/2020 15:50:19] "[37mPOST / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Nov/2020 15:50:31] "[37mOPTIONS / HTTP/1.1[0m" 200 -
+INFO:root:RUB -- sender: {'amount': '3333', 'currency': '643', 'payway': 'advcash_rub', 'shop_id': '5', 'shop_order_id': '17', 'sign': 'e64db9ea771dc28d8d68d749994337d6d30a1dc1084359766314b4aa26d7de97'}
+INFO:root:pay_log_save:
+payment_id: 17
+send_data: {"amount": "3333", "currency": "643", "payway": "advcash_rub", "shop_id": "5", "shop_order_id": "17", "sign": "e64db9ea771dc28d8d68d749994337d6d30a1dc1084359766314b4aa26d7de97"}
+response: {"data": {"ac_account_email": "advcash@piastrix.com", "ac_amount": "3333.00", "ac_currency": "RUR", "ac_fail_url": "https://pay.piastrix.com/result/ps/fail/advcash", "ac_order_id": "i_263407775", "ac_ps": "ADVANCED_CASH", "ac_sci_name": "Piastrix", "ac_sign": "af03488807ea8b75f94d05e7f7c4a700713f960efa1fd240e6848268340f5e5f", "ac_sub_merchant_url": "http://piastrix.com", "ac_success_url": "https://pay.piastrix.com/result/ps/advcash"}, "id": 263407775, "method": "POST", "url": "https://wallet.advcash.com/sci/"}
+INFO:root:RUB -- send_data: {'amount': '3333', 'currency': '643', 'payway': 'advcash_rub', 'shop_id': '5', 'shop_order_id': '17', 'sign': 'e64db9ea771dc28d8d68d749994337d6d30a1dc1084359766314b4aa26d7de97'}
+INFO:werkzeug:127.0.0.1 - - [16/Nov/2020 15:50:31] "[37mPOST / HTTP/1.1[0m" 200 -

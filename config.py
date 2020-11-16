@@ -12,11 +12,6 @@ CURRENCY_CODE = {
 
 CURRENCY = ["EUR", "USD", "RUB"]
 
-EUR_PARAMS = ['amount', 'currency', 'shop_id', 'shop_order_id']
-USD_PARAMS = ['shop_amount', 'shop_currency', 'shop_id', 'shop_order_id',
-              'payer_currency']
-RUB_PARAMS = ['amount', 'currency', 'payway', 'shop_id', 'shop_order_id']
-
 # Parameters for making queries
 SHOP_ID = 5
 SECRET_KEY = 'SecretKey01'
