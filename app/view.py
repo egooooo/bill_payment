@@ -51,9 +51,7 @@ class PaymentApi(Resource):
             pay_log_save(pay.id, json.dumps(send_data))
             logging.info(f'EUR -- send_data: {send_data}')
 
-            response = jsonify(send_data)
-            response.headers.set('Access-Control-Allow-Origin', '*')
-            return make_response(response, 200)
+            return make_response(jsonify(send_data), 200)
 
         if pay.pay_currency == 'USD':
             send_data['payer_currency'] = str(CURRENCY_CODE.get(pay.pay_currency))
@@ -74,9 +72,7 @@ class PaymentApi(Resource):
             if resp.get('error'):
                 return make_response(resp)
 
-            response = jsonify({"url": resp.get('url')})
-            response.headers.set('Access-Control-Allow-Origin', '*')
-            return make_response(response, 200)
+            return make_response(jsonify({"url": resp.get('url')}), 200)
 
         if pay.pay_currency == 'RUB':
             send_data['amount'] = str(pay.pay_amount)
@@ -104,5 +100,4 @@ class PaymentApi(Resource):
                     "url": resp.get('url')
                 }
             )
-            response.headers.set('Access-Control-Allow-Origin', '*')
             return make_response(response, 200)
