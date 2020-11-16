@@ -6,7 +6,8 @@ from app.models import Payment
 from app.service import pay_log_save, make_sign, sender
 
 from config import CURRENCY, CURRENCY_CODE, SHOP_ID, PAYWAY, \
-    URL_EN_PAY, URL_BILL_CRATE, URL_INVOICE_CRATE
+    URL_EN_PAY, URL_BILL_CRATE, URL_INVOICE_CRATE, EUR_PARAMS, USD_PARAMS, \
+    RUB_PARAMS
 
 import json
 import logging
@@ -43,7 +44,7 @@ class PaymentApi(Resource):
             send_data['description'] = pay.description
             send_data['shop_id'] = str(SHOP_ID)
             send_data['shop_order_id'] = str(pay.id)
-            send_data['sign'] = make_sign(list(send_data.keys()), send_data)
+            send_data['sign'] = make_sign(EUR_PARAMS, send_data)
             send_data['url'] = URL_EN_PAY
 
             # Save logs
@@ -58,7 +59,7 @@ class PaymentApi(Resource):
             send_data['shop_currency'] = str(CURRENCY_CODE.get(pay.pay_currency))
             send_data['shop_id'] = str(SHOP_ID)
             send_data['shop_order_id'] = str(pay.id)
-            send_data['sign'] = make_sign(list(send_data.keys()), send_data)
+            send_data['sign'] = make_sign(USD_PARAMS, send_data)
 
             # send data
             resp = sender(send_data, URL_BILL_CRATE)
@@ -79,7 +80,7 @@ class PaymentApi(Resource):
             send_data['payway'] = PAYWAY
             send_data['shop_id'] = str(SHOP_ID)
             send_data['shop_order_id'] = str(pay.id)
-            send_data['sign'] = make_sign(list(send_data.keys()), send_data)
+            send_data['sign'] = make_sign(RUB_PARAMS, send_data)
 
             # send data
             resp = sender(send_data, URL_INVOICE_CRATE)

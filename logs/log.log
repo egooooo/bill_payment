@@ -138,3 +138,11 @@ send_data: {"amount": "3333", "currency": "643", "payway": "advcash_rub", "shop_
 response: {"data": {"ac_account_email": "advcash@piastrix.com", "ac_amount": "3333.00", "ac_currency": "RUR", "ac_fail_url": "https://pay.piastrix.com/result/ps/fail/advcash", "ac_order_id": "i_263407775", "ac_ps": "ADVANCED_CASH", "ac_sci_name": "Piastrix", "ac_sign": "af03488807ea8b75f94d05e7f7c4a700713f960efa1fd240e6848268340f5e5f", "ac_sub_merchant_url": "http://piastrix.com", "ac_success_url": "https://pay.piastrix.com/result/ps/advcash"}, "id": 263407775, "method": "POST", "url": "https://wallet.advcash.com/sci/"}
 INFO:root:RUB -- send_data: {'amount': '3333', 'currency': '643', 'payway': 'advcash_rub', 'shop_id': '5', 'shop_order_id': '17', 'sign': 'e64db9ea771dc28d8d68d749994337d6d30a1dc1084359766314b4aa26d7de97'}
 INFO:werkzeug:127.0.0.1 - - [16/Nov/2020 15:50:31] "[37mPOST / HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [16/Nov/2020 15:52:00] "[37mOPTIONS / HTTP/1.1[0m" 200 -
+INFO:root:pay_log_save:
+payment_id: 18
+send_data: {"amount": "333", "currency": "978", "description": "\u044b\u0432\u0444\u0430", "shop_id": "5", "shop_order_id": "18", "sign": "a81da346293e8897faf34d902748d53ef7d1c04eed4076c5206246bd07adb8c0", "url": "https://pay.piastrix.com/en/pay"}
+response: None
+INFO:root:EUR -- send_data: {'amount': '333', 'currency': '978', 'description': 'ывфа', 'shop_id': '5', 'shop_order_id': '18', 'sign': 'a81da346293e8897faf34d902748d53ef7d1c04eed4076c5206246bd07adb8c0', 'url': 'https://pay.piastrix.com/en/pay'}
+INFO:werkzeug:127.0.0.1 - - [16/Nov/2020 15:52:00] "[37mPOST / HTTP/1.1[0m" 200 -
