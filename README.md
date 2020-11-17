@@ -1,8 +1,5 @@
 # BILL PAYMENT
 
-* Project was tested on manOS Big Sur 
-* Version 11.0.1
-
 ## Installation
 1. Create virtualenv and activate:
 ```bash
@@ -37,3 +34,7 @@ tail -f logs/log.log
 
 ## Frontend (client-side)
 In field ``client-side`` open ``index.html`` in browser.
+
+
+* Project was tested on manOS Big Sur 
+* Version 11.0.1
