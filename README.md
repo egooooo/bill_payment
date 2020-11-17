@@ -11,7 +11,12 @@ virtualenv venv_bill --python=python3.8
 source venv_bill/bin/activate
 ```
 
-2. Database
+2. Requirements
+```bash
+pip install -r requirements.txt
+```
+
+3. Database
 ```bash
 python manage.py db init
 
